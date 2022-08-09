@@ -38,6 +38,7 @@ public class JpaMain {
 //            Member member2 = new Member(160L, "B");
 //            em.persist(member1); // 여기까지 컨텍스트에 쌓인다. 실제 DB에 올라가지 않음
 //            em.persist(member2);
+
             //준영속
 //            em.detach(member);
 //            em.clear();
@@ -53,7 +54,7 @@ public class JpaMain {
 //            member.setUsername("C");
 //            em.persist(member);
 
-            //GeneratedValue 매핑
+            // GeneratedValue 매핑
             // IDENTITY 의 경우.. 기본키를 부여하는것은 데이터베이스에 접근해야 알 수 있다.
             // 하지만 영속성 컨테스트에 올라가기 때문에 아직 기본키를 알 수 없다.
             // 이를 해결하기 위해.. IDENTITY 에 한해서 em.persist 시점에 쿼리를 날린다.
@@ -64,6 +65,59 @@ public class JpaMain {
 //            Member member = new Member();
 //            member.setUsername("C");
 //            em.persist(member);
+
+            //연관관계 매핑이 아닌 경우..!
+            //객체의 레퍼런스를 반환하는 것이 아닌 id값을 공유함
+            //객체지향적인 방법이 아님
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("Member1");
+//            member.setTeamId(team.getId());
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            Long findTeamId = findMember.getTeamId();
+//            Team findTeam = em.find(Team.class, findTeamId);
+
+            //연관관계 매핑 단방향
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("Member1");
+//            member.setTeam(team);
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            Team team = findMember.getTeam();
+
+            //연관관계 매핑 양방향
+            //==========================
+            // 1. 외래키가 있는곳이 주인
+            // 2. ManyToOne 쪽이 주인
+            // 3. 주인객체의 수정이 DB에 반영
+            // 4. jpa가 Team 을 자동으로 db에 쿼리해주긴 하지만
+            // 5. 양쪽 다 수정하는것을 권장 ----> 편리를 위해 메소드 생성.. Member 클래스 확인
+            //==========================
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("Member1");
+//            member.changeTeam(team);
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            List<Member> members = findMember.getTeam().getMembers();
+//
+//            for (Member m : members) {
+//                System.out.println("m = " + m.getUsername());
+//            }
 
 
             tx.commit(); // 실제 데이터베이스에 올리는 CODE
